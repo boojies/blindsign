@@ -1,7 +1,11 @@
 [package]
 name = "blindsign"
-version = "0.1.0"
+version = "0.0.1"
 authors = ["boojies"]
+license = "GPL-3.0-only"
+description = "A package for creating blind signatures cryptography ECC"
+categories = ["cryptography", "authentication", "algorithms"]
+keywords = ["blind", "signature", "cryptography", "mix", "ECC"]
 
 [dev-dependencies]
 sha3 = "0.7.3"
