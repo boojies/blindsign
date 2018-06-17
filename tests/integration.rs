@@ -2,13 +2,13 @@
 extern crate curve25519_dalek;
 extern crate sha3;
 extern crate rand;
-extern crate ecc_blind;
+extern crate blindsign;
 
 #[cfg(test)]
 mod integration_test {
     use sha3::Sha3_512;
 
-    use ecc_blind::{
+    use blindsign::{
         Error,
         Result,
         keypair::{
