@@ -2,9 +2,10 @@
 name = "blindsign"
 version = "0.0.1"
 authors = ["boojies"]
+readme = "README.md"
 license = "GPL-3.0-only"
 description = "A package for creating blind signatures cryptography ECC"
-categories = ["cryptography", "authentication", "algorithms"]
+categories = ["cryptography"]
 keywords = ["blind", "signature", "cryptography", "mix", "ECC"]
 
 [dev-dependencies]
