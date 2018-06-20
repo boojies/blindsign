@@ -28,7 +28,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-blindsign = 0.0.3
+blindsign = 0.0.4
 ```
 
 And this to your crate root:
