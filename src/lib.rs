@@ -12,26 +12,23 @@
 
 // Regular imported crates
 extern crate curve25519_dalek;
-extern crate typenum;
-extern crate failure;
 extern crate digest;
+extern crate failure;
 extern crate rand;
-
+extern crate typenum;
 
 // Imported crates with used macros
-#[macro_use] extern crate failure_derive;
-
+#[macro_use]
+extern crate failure_derive;
 
 // The public interface
-pub mod session;
 pub mod keypair;
-pub mod request;
 pub mod message;
-
+pub mod request;
+pub mod session;
 
 /// The Result type used
-pub type Result<T>  = ::std::result::Result<T, Error>;
-
+pub type Result<T> = ::std::result::Result<T, Error>;
 
 /// The Error types
 #[derive(Fail, Debug)]

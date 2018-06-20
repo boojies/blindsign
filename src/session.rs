@@ -5,25 +5,15 @@
 //! request for protocol initiation. Also, the request for protocol initiation
 //! is neither defined nor implemented by this crate.
 
-use rand::{
-    OsRng,
-};
-use curve25519_dalek::{
-    constants::RISTRETTO_BASEPOINT_POINT,
-    scalar::Scalar,
-};
-use ::Error::{
-    WiredScalarMalformed,
-};
-
-
+use curve25519_dalek::{constants::RISTRETTO_BASEPOINT_POINT, scalar::Scalar};
+use rand::OsRng;
+use Error::WiredScalarMalformed;
 
 /// For managing the signer side response to incoming requests for blind
 /// signatures. How the actual requests come in is orthogonal to this crate.
 pub struct BlindSession {
-    k: Scalar
+    k: Scalar,
 }
-
 
 impl BlindSession {
     /// Initiate a new signer side session to create a blind signature for
@@ -46,9 +36,9 @@ impl BlindSession {
     /// * P = An ECC Generator Point
     pub fn new() -> ::Result<([u8; 32], Self)> {
         let mut rng = OsRng::new()?;
-        let k       = Scalar::random(&mut rng);
-        let rp      = (k * RISTRETTO_BASEPOINT_POINT).compress().to_bytes();
-        Ok( (rp, Self { k }) )
+        let k = Scalar::random(&mut rng);
+        let rp = (k * RISTRETTO_BASEPOINT_POINT).compress().to_bytes();
+        Ok((rp, Self { k }))
     }
 
     /// Consumes the session and returns the generated blind signature.
@@ -76,7 +66,9 @@ impl BlindSession {
     /// * e' = requester calculated e' value, received by signer
     /// * k  = randomly generated number by the signer
     pub fn sign_ep(self, ep: &[u8; 32], xs: Scalar) -> ::Result<[u8; 32]> {
-        Ok( (xs * Scalar::from_canonical_bytes(*ep)
-                        .ok_or(WiredScalarMalformed)? + self.k).to_bytes() )
+        Ok(
+            (xs * Scalar::from_canonical_bytes(*ep).ok_or(WiredScalarMalformed)? + self.k)
+                .to_bytes(),
+        )
     }
 }

@@ -1,29 +1,19 @@
 // Regular imported crates
-extern crate curve25519_dalek;
-extern crate sha3;
-extern crate rand;
 extern crate blindsign;
+extern crate curve25519_dalek;
+extern crate rand;
+extern crate sha3;
 
 #[cfg(test)]
 mod integration_test {
     use sha3::Sha3_512;
 
     use blindsign::{
-        Error,
-        Result,
-        keypair::{
-            BlindKeypair
-        },
-        message::{
-            BlindSignedMsg,
-            WiredBlindSignedMsg,
-        },
-        request::{
-            BlindRequest
-        },
-        session::{
-            BlindSession,
-        },
+        keypair::BlindKeypair,
+        message::{BlindSignedMsg, WiredBlindSignedMsg},
+        request::BlindRequest,
+        session::BlindSession,
+        Error, Result,
     };
 
     use rand::OsRng;
@@ -36,7 +26,12 @@ mod integration_test {
         let sp = bs.sign_ep(&ep, keypair.private()).unwrap();
         let blind_signed_msg = br.gen_signed_msg(&sp).unwrap();
         let wired = WiredBlindSignedMsg::from(blind_signed_msg);
-        println!("\nS: {:?},\nE: {:?}, \nR: {:?}", &wired.0[0..32], &wired.0[32..64], &wired.0[64..96]);
+        println!(
+            "\nS: {:?},\nE: {:?}, \nR: {:?}",
+            &wired.0[0..32],
+            &wired.0[32..64],
+            &wired.0[64..96]
+        );
         let sig = wired.to_internal_format().unwrap();
         assert!(sig.authenticate(keypair.public()));
     }
@@ -49,7 +44,12 @@ mod integration_test {
         let sp = bs.sign_ep(&ep, keypair.private()).unwrap();
         let blind_signed_msg = br.gen_signed_msg(&sp).unwrap();
         let wired = WiredBlindSignedMsg::from(blind_signed_msg);
-        println!("\nS: {:?},\nE: {:?}, \nR: {:?}", &wired.0[0..32], &wired.0[32..64], &wired.0[64..96]);
+        println!(
+            "\nS: {:?},\nE: {:?}, \nR: {:?}",
+            &wired.0[0..32],
+            &wired.0[32..64],
+            &wired.0[64..96]
+        );
         let sig = wired.to_internal_format().unwrap();
         assert!(sig.authenticate(keypair.public()));
     }

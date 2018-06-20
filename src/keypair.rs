@@ -1,22 +1,11 @@
 //! Generate and manage the ECC keys
+use curve25519_dalek::constants::RISTRETTO_BASEPOINT_POINT;
 use curve25519_dalek::{
+    ristretto::{CompressedRistretto, RistrettoPoint},
     scalar::Scalar,
-    ristretto::{
-        RistrettoPoint,
-        CompressedRistretto
-    }
 };
-use curve25519_dalek::constants::{
-    RISTRETTO_BASEPOINT_POINT
-};
-use rand::{
-    OsRng
-};
-use ::Error::{
-    WiredScalarMalformed,
-    WiredRistrettoPointMalformed,
-};
-
+use rand::OsRng;
+use Error::{WiredRistrettoPointMalformed, WiredScalarMalformed};
 
 /// An elliptic curve cryptography keypair. The private key (Xs) is used by the
 /// signer for creating the blind signature on the blinded hash(msg||R), and the
@@ -24,10 +13,9 @@ use ::Error::{
 /// unblinded signature on the unblinded hash(msg||R).
 #[derive(Copy, Clone, Debug)]
 pub struct BlindKeypair {
-    private : Scalar,
-    public  : RistrettoPoint,
+    private: Scalar,
+    public: RistrettoPoint,
 }
-
 
 impl BlindKeypair {
     /// Generates an ECC keypair for use with the blind signature protocol.
@@ -51,8 +39,8 @@ impl BlindKeypair {
     pub fn generate() -> ::Result<Self> {
         let mut rng = OsRng::new()?;
         let private = Scalar::random(&mut rng);
-        let public  = private * RISTRETTO_BASEPOINT_POINT;
-        Ok( BlindKeypair{private, public} )
+        let public = private * RISTRETTO_BASEPOINT_POINT;
+        Ok(BlindKeypair { private, public })
     }
 
     /// Creates a new BlindKeypair object from the provided private and public
@@ -65,10 +53,12 @@ impl BlindKeypair {
     /// * Err(::Error) on failure, which can indicate either that the private
     /// or public key inputs were malformed.
     pub fn from_wired(private: [u8; 32], public: [u8; 32]) -> ::Result<Self> {
-        Ok( BlindKeypair{
+        Ok(BlindKeypair {
             private: Scalar::from_canonical_bytes(private).ok_or(WiredScalarMalformed)?,
-            public: CompressedRistretto(public).decompress().ok_or(WiredRistrettoPointMalformed)?,
-        } )
+            public: CompressedRistretto(public)
+                .decompress()
+                .ok_or(WiredRistrettoPointMalformed)?,
+        })
     }
 
     /// Returns the private key in Scalar form

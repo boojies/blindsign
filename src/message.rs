@@ -1,19 +1,10 @@
 //! Manage the blindly signed message
-use curve25519_dalek::scalar::{
-    Scalar
-};
+use curve25519_dalek::scalar::Scalar;
 use curve25519_dalek::{
-    ristretto::{
-        RistrettoPoint,
-        CompressedRistretto
-    },
-    constants::RISTRETTO_BASEPOINT_POINT
+    constants::RISTRETTO_BASEPOINT_POINT,
+    ristretto::{CompressedRistretto, RistrettoPoint},
 };
-use ::Error::{
-    WiredScalarMalformed,
-    WiredRistrettoPointMalformed
-};
-
+use Error::{WiredRistrettoPointMalformed, WiredScalarMalformed};
 
 /// The resultant blindly signed message of protocol completion. The signature
 /// member S can be authenticated on members e and R, when provided with the
@@ -61,11 +52,13 @@ impl WiredBlindSignedMsg {
         e_arr.copy_from_slice(&self.0[0..32]);
         s_arr.copy_from_slice(&self.0[32..64]);
         r_arr.copy_from_slice(&self.0[64..96]);
-        Ok( BlindSignedMsg {
+        Ok(BlindSignedMsg {
             e: Scalar::from_canonical_bytes(e_arr).ok_or(WiredScalarMalformed)?,
             s: Scalar::from_canonical_bytes(s_arr).ok_or(WiredScalarMalformed)?,
-            r: CompressedRistretto(r_arr).decompress().ok_or(WiredRistrettoPointMalformed)?,
-        } )
+            r: CompressedRistretto(r_arr)
+                .decompress()
+                .ok_or(WiredRistrettoPointMalformed)?,
+        })
     }
 
     /// Returns a reference to the internal [u8; 96]
@@ -73,7 +66,7 @@ impl WiredBlindSignedMsg {
         &self.0
     }
 
-   /// Returns a copy of the internal [u8; 96]
+    /// Returns a copy of the internal [u8; 96]
     pub fn to_bytes(&self) -> [u8; 96] {
         self.0
     }
@@ -90,7 +83,7 @@ impl BlindSignedMsg {
     /// * 'r' - The unblinded R' value received from the signer in step one
     /// of the protocol
     pub fn new(e: Scalar, s: Scalar, r: RistrettoPoint) -> Self {
-        Self{ e, s, r }
+        Self { e, s, r }
     }
 
     /// Authenticates that the signature value S on e is valid with R and the
