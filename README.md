@@ -85,4 +85,4 @@ assert!(sig.authenticate(keypair.public()));
 
 ### License
 
-* This implementation is licensed under GPL v3.
+* This implementation is licensed under MIT
