@@ -1,6 +1,6 @@
 [package]
 name = "blindsign"
-version = "0.0.3"
+version = "0.0.4"
 authors = ["boojies"]
 repository = "https://github.com/boojies/blindsign"
 readme = "README.md"

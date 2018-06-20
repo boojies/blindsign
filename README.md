@@ -2,7 +2,7 @@ blindsign
 =====
 
 A rust library for computing and verifying blind signatures as part of the multi
-step blind signature scheme described in the paper [Blind Signature Scheme Based on Elliptic Curve Cryptography](pdfs.semanticscholar.org/e58a/1713858a9e18abfc05de244e.pdf).
+step blind signature scheme described in the paper [Blind Signature Scheme Based on Elliptic Curve Cryptography](http://pdfs.semanticscholar.org/e58a/1713858a9e18abfc05de244e.pdf).
 
 ### About
 
