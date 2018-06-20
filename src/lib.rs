@@ -16,6 +16,7 @@ extern crate digest;
 extern crate failure;
 extern crate rand;
 extern crate typenum;
+extern crate subtle;
 
 // Imported crates with used macros
 #[macro_use]
@@ -23,9 +24,9 @@ extern crate failure_derive;
 
 // The public interface
 pub mod keypair;
-pub mod message;
 pub mod request;
 pub mod session;
+pub mod signature;
 
 /// The Result type used
 pub type Result<T> = ::std::result::Result<T, Error>;
